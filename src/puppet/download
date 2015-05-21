@@ -1,0 +1,22 @@
+#create dirs if not exist
+[ -d $1 ] || mkdir $1
+[ -d $1/x86_64 ] || mkdir $1/x86_64
+[ -d $1/noarch ] || mkdir $1/noarch
+cd $1/noarch
+[ -f puppetlabs-release-el-6.noarch.rpm ] || wget http://yum.puppetlabs.com/puppetlabs-release-el-6.noarch.rpm
+cd ../..
+yumdownloader -c puppetrpms.repo  --destdir=$1/noarch puppet-server\
+ hiera\
+ puppet\
+ rubygems.noarch 
+yumdownloader -c puppetrpms.repo  --destdir=$1/x86_64 facter.x86_64\
+ libselinux-ruby\
+ ruby\
+ ruby-augeas\
+ ruby-irb\
+ ruby-libs\
+ ruby-rdoc\
+ ruby-shadow\
+ rubygem-json\
+ virt-what 
+
