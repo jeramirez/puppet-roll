@@ -1,0 +1,36 @@
+<?xml version="1.0" standalone="no"?>
+
+<graph>
+
+	<description>
+	The Puppet Roll
+
+	</description>
+
+	<copyright>
+	Copyright (c) 2015 Juan Eduardo Ramirez
+	All rights reserved.
+	
+	</copyright>
+
+	<changelog>
+	$Log  puppet.xml,v $
+        Revision 0.0  2015/05/13 05:48:53  eduardo
+        starting point
+	</changelog>
+
+	<order head="database-data">
+		<tail>puppet-server</tail>
+	</order>
+
+	<!-- make sure yum conf is set -->
+	<order head="yum">
+		<tail>puppet-client</tail>
+	</order>
+
+	<!-- add edges here -->
+	<edge from="client" to="puppet-client" arch="i386,x86_64" cond="Puppet_Client"/>
+	<edge from="server" to="puppet-server" arch="i386,x86_64"/>
+
+</graph>
+
