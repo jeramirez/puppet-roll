@@ -9,7 +9,8 @@
 
 	<copyright>
 	Copyright (c) 2015 Juan Eduardo Ramirez
-	All rights reserved.
+	Copyright (c) 2000 - 2014 The Regents of the University of California.
+	All rights reserved.  Rocks(r) v6.1.1 www.rocksclusters.org
 	
 	</copyright>
 
@@ -19,17 +20,13 @@
         starting point
 	</changelog>
 
-	<order head="database-data">
-		<tail>puppet-server</tail>
-	</order>
-
 	<!-- make sure yum conf is set -->
 	<order head="yum">
+		<tail>puppet-server</tail>
 		<tail>puppet-client</tail>
 	</order>
 
-	<!-- add edges here -->
-	<edge from="client" to="puppet-client" arch="i386,x86_64" cond="Puppet_Client"/>
+	<edge from="client" to="puppet-client" arch="i386,x86_64" cond="Puppet_Client_Install"/>
 	<edge from="server" to="puppet-server" arch="i386,x86_64"/>
 
 </graph>

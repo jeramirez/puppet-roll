@@ -1,0 +1,51 @@
+<?xml version="1.0" standalone="no"?>
+
+<kickstart>
+
+	<description>
+	puppet roll for server install 
+	install puppet master on headnode
+	</description>
+
+	<copyright>
+	Copyright (c) 2015 - Juan Eduardo Ramirez
+	Copyright (c) 2000 - 2014 The Regents of the University of California.
+	All rights reserved. Rocks(r) v6.1.1 www.rocksclusters.org
+	</copyright>
+
+	<changelog>
+	$Log: puppet-server.xml,v $
+	Revision 0.0  2015/05/21 08:37:53  eduardo
+	initial creation
+	</changelog>
+
+	<package>puppet-server</package>
+	<package>roll-puppet-usersguide</package>
+
+<!-- Set head node as puppet master private/public names -->
+<post>
+cp -p /etc/puppet/puppet.conf /etc/puppet/puppet.conf.template
+sed -i -e "s@[agent]@   dns_alt_names = &Kickstart_PrivateHostname;,&Kickstart_PrivateHostname;.&Kickstart_PrivateDNSDomain;,&Kickstart_PublicHostname;\n\n[agent]@" 
+/etc/puppet/puppet.conf
+</post>
+
+<!-- Install a template site.pp -->
+<post>
+<file  name="/etc/rc.d/rocksconfig.d/post-90-puppet-install-sitepp" perms="0755">
+#!/bin/sh
+
+echo node "/^compute-.*\$/ {" &gt; /etc/puppet/manifests/site.pp
+echo "#include puppetalive"  &gt;&gt; /etc/puppet/manifests/site.pp
+echo "}" &gt;&gt; /etc/puppet/manifests/site.pp
+
+cp /etc/rc.d/rocksconfig.d/post-90-puppet-install-sitepp /root/post-90-puppet-install-sitepp_done
+rm -f /etc/rc.d/rocksconfig.d/post-90-puppet-install-sitepp
+</file>
+</post>
+
+<!-- Install Puppet on compute nodes by default-->
+<post>
+/opt/rocks/bin/rocks add appliance attr compute Puppet_Client_Install value=true
+</post>
+
+</kickstart>
