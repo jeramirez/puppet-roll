@@ -18,6 +18,7 @@
 	Initial Revision
 	</changelog>
 
+<package>puppetlabs-release</package>
 <package>puppet</package>
 
 <post>

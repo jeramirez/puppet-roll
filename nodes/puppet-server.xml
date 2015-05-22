@@ -19,6 +19,7 @@
 	initial creation
 	</changelog>
 
+	<package>puppetlabs-release</package>
 	<package>puppet-server</package>
 	<package>roll-puppet-usersguide</package>
 
