@@ -26,8 +26,7 @@
 <!-- Set head node as puppet master private/public names -->
 <post>
 cp -p /etc/puppet/puppet.conf /etc/puppet/puppet.conf.template
-sed -i -e "s@[agent]@   dns_alt_names = &Kickstart_PrivateHostname;,&Kickstart_PrivateHostname;.&Kickstart_PrivateDNSDomain;,&Kickstart_PublicHostname;\n\n[agent]@" 
-/etc/puppet/puppet.conf
+sed -i -e "s@[agent]@   dns_alt_names = &Kickstart_PrivateHostname;,&Kickstart_PrivateHostname;.&Kickstart_PrivateDNSDomain;,&Kickstart_PublicHostname;\n\n[agent]@" /etc/puppet/puppet.conf
 </post>
 
 <!-- Install a template site.pp -->
