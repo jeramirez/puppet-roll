@@ -56,7 +56,7 @@
 # $Log$
 
 REDHAT.ROOT = $(CURDIR)/../../
-REDHAT.RPMS = $(REDHAT.ROOT)/RPMS
+REDHAT.RPMS = $(REDHAT.ROOT)RPMS
 ROCKS.OS.VERSION.MAJOR=$(shell lsb_release -rs | cut -d . -f 1)
 ifeq ($(strip $(ROCKS.OS.VERSION.MAJOR)), 6)
 VERSION.MAJOR = 6
@@ -68,7 +68,7 @@ rpm pkg::
 	./download $(VERSION.MAJOR)
 	for i in $(CURDIR)/$(VERSION.MAJOR)/x86_64/*.rpm ; do \
 		if [ ! -d $(REDHAT.RPMS)/x86_64 ] ; then \
-			mkdir $(REDHAT.RPMS)/x86_64 ; \
+			mkdir -p $(REDHAT.RPMS)/x86_64 ; \
 		fi ; \
 		if [ ! -f $(REDHAT.RPMS)/x86_64/$$i ] ; then \
 			cp -p $$i $(REDHAT.RPMS)/x86_64 ; \
@@ -76,7 +76,7 @@ rpm pkg::
 	done
 	for i in $(CURDIR)/$(VERSION.MAJOR)/noarch/*.rpm ; do \
 		if [ ! -d $(REDHAT.RPMS)/noarch ] ; then \
-			mkdir $(REDHAT.RPMS)/noarch ; \
+			mkdir -p $(REDHAT.RPMS)/noarch ; \
 		fi ; \
 		if [ ! -f $(REDHAT.RPMS)/noarch/$$i ] ; then \
 			cp -p $$i $(REDHAT.RPMS)/noarch ; \
