@@ -8,8 +8,147 @@
 
 <para>
 Tutorials for using puppet and its components are available
-from the <ulink url="http://link-here.html">
-puppet web site</ulink>
+from the <ulink url="http://puppetlabs.com/">
+puppet web site.</ulink>
+</para>
+
+<para>
+To activate puppet clients on Rocks,
+there is two <emphasis role=strong>rocks attributes</emphasis> used.
+
+<table frame='all'>
+  <title>Attributes Used in puppet Roll </title>
+  <tgroup cols='2' align='left' colsep='1' rowsep='1'>
+     <thead>
+       <row>
+          <entry align="center">Attibute Name</entry>
+          <entry align="center">Description</entry>
+       </row>
+     </thead>
+     <tbody>
+
+       <row>
+         <entry>
+           Puppet_Client_Install
+         </entry>
+         <entry>
+           Flag to install puppet client in cluster nodes.
+           (Service by default is turned off).
+           Default: True (on compute appliance)
+         </entry>
+       </row>
+
+       <row>
+         <entry>
+           Puppet_Client
+         </entry>
+         <entry>
+           Flag to turn service puppet on in cluster nodes.
+           No default. Set to True, if want a node managed by puppet.
+         </entry>
+       </row>
+
+     </tbody>
+  </tgroup>
+</table>
+
+Below are the steps for starting up using puppet.
+</para>
+
+<para>
+1) Turning on puppet server. (Only once).
+</para>
+<screen>
+$ su - root
+#
+###very first time turn on puppet server
+###(make sure alt names in /etc/puppet/puppet.conf are as expected)
+#
+#service puppetmaster status
+#chkconfig puppetmaster on
+</screen>
+
+<para>
+2) Setting nodes to start puppet.
+</para>
+<screen>
+###by default puppet is installed but turned off on compute appliance only.
+###(changing default only affect if compute was not installed yet.)
+#
+#rocks set appliance attr compute attr=Puppet_Client value=True
+#
+###if nodes already installed (and don't want re-kickstart).
+#
+#rocks run host compute command='service puppet start'
+#rocks run host compute command='chkconfig puppet on'
+#
+</screen>
+
+<para>
+2b) Setting to install and start puppet in other appliances (login for example).
+</para>
+<screen>
+###Set to install puppet in login nodes at kickstart
+#
+#rocks set appliance attr login attr=Puppet_Client_Install value=True
+#
+###Set to start puppet at boot on login nodes (after installation)
+#
+#rocks set appliance attr login attr=Puppet_Client value=True
+#
+</screen>
+
+
+<para>
+3) Frontend (master puppet) accept clients by 
+signing certs submitted by clients.
+</para>
+<screen>
+###Check if clients contacted master (once per kickstart)
+#
+#puppet cert --list
+#
+###Sign certs, all at once
+#
+#puppet cert --sign --all
+#
+###Or sign cert individual node
+#
+#puppet cert --sign compute-0-0
+#
+</screen>
+
+<para>
+4)Check puppet install
+</para>
+<screen>
+###install test module
+#
+#git clone https://github.com/jeramirez/rocks-puppetalive.git /etc/puppet/modules/puppetalive
+#
+###configure site to use test module
+###(by uncommenting /etc/puppet/manifests/site.pp)
+#
+#sed -i -e "s@#include puppetalive@include puppetalive@" /etc/puppet/manifests/site.pp
+#
+###(optional)to module take effect immediately restart puppet on nodes
+#
+#rocks run host compute command='service puppet restart'
+#
+###check existance of file created my test module
+###(test module should create empty file /root/puppetalive)
+#
+#rocks run host compute command='hostname;ls -l /root | grep puppetalive'
+#
+</screen>
+<para>
+Congratulations! you have puppet up and running. 
+Now you can search or create new puppet modules.
+For more information on puppet commands use
+<emphasis role=strong>'puppet help'</emphasis> 
+or visit 
+<ulink url="http://puppetlabs.com/">
+puppet web site.</ulink>
 </para>
 
 </section>
