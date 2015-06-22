@@ -27,6 +27,11 @@
 <post>
 cp -p /etc/puppet/puppet.conf /etc/puppet/puppet.conf.template
 sed -i -e "s@\[agent\]@    dns_alt_names = &Kickstart_PrivateHostname;,&Kickstart_PrivateHostname;.&Kickstart_PrivateDNSDomain;,&Kickstart_PublicHostname;\n\n\[agent\]@" /etc/puppet/puppet.conf
+#hiera
+cp -p /etc/hiera.yaml /etc/hiera.yaml.template
+ln -s /etc/hiera.yaml /etc/puppet/hiera.yaml
+#hieradata
+ln -s /var/lib/hiera /etc/puppet/hieradata
 </post>
 
 <!-- Install a template site.pp -->
@@ -34,6 +39,7 @@ sed -i -e "s@\[agent\]@    dns_alt_names = &Kickstart_PrivateHostname;,&Kickstar
 <file  name="/etc/rc.d/rocksconfig.d/post-90-puppet-install-sitepp" perms="0755">
 #!/bin/sh
 
+[ -f /etc/puppet/manifests/site.pp ]&&mv /etc/puppet/manifests/site.pp /etc/puppet/manifests/site.pp_preupgrade_backup
 echo node "/^compute-.*\$/ {" &gt; /etc/puppet/manifests/site.pp
 echo "#include puppetalive"  &gt;&gt; /etc/puppet/manifests/site.pp
 echo "}" &gt;&gt; /etc/puppet/manifests/site.pp
