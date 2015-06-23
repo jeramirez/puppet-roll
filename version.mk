@@ -1,6 +1,6 @@
 ROLLNAME	= puppet
 ROLL		= puppet
-VERSION		= 3.7.5
+VERSION		= 3.8.1
 RELEASE		= 0
 COLOR		= gray
 

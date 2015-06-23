@@ -1,5 +1,5 @@
 ROLL			= puppet
-VERSION			= 3.7.5
+VERSION			= 3.8.1
 NAME    		= roll-$(ROLL)-usersguide
 RELEASE			= 0
 
