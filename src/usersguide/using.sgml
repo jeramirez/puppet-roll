@@ -106,15 +106,15 @@ signing certs submitted by clients.
 <screen>
 ###Check if clients contacted master (once per kickstart)
 #
-#puppet cert --list
+#puppet cert list
 #
 ###Sign certs, all at once
 #
-#puppet cert --sign --all
+#puppet cert sign --all
 #
 ###Or sign cert individual node
 #
-#puppet cert --sign compute-0-0
+#puppet cert sign compute-0-0
 #
 </screen>
 
@@ -136,7 +136,7 @@ signing certs submitted by clients.
 #rocks run host compute command='service puppet restart'
 #
 ###check existance of file created my test module
-###(test module should create empty file /root/puppetalive)
+###(test module should create a file /root/puppetalive)
 #
 #rocks run host compute command='hostname;ls -l /root | grep puppetalive'
 #
