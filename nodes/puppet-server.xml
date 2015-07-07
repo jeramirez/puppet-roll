@@ -39,7 +39,7 @@ ln -s /var/lib/hiera /etc/puppet/hieradata
 <file  name="/etc/rc.d/rocksconfig.d/post-90-puppet-install-sitepp" perms="0755">
 #!/bin/sh
 
-[ -f /etc/puppet/manifests/site.pp ]&&mv /etc/puppet/manifests/site.pp /etc/puppet/manifests/site.pp_preupgrade_backup
+[ -f /etc/puppet/manifests/site.pp ]&gt;&gt;mv /etc/puppet/manifests/site.pp /etc/puppet/manifests/site.pp_preupgrade_backup
 echo node "/^compute-.*\$/ {" &gt; /etc/puppet/manifests/site.pp
 echo "#include puppetalive"  &gt;&gt; /etc/puppet/manifests/site.pp
 echo "}" &gt;&gt; /etc/puppet/manifests/site.pp
